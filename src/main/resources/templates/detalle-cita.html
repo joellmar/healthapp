@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de la Cita</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>📋 Detalle de Cita Médica</h2>
+
+<div style="border: 1px solid #ccc; padding: 20px; max-width: 500px;">
+    <p><strong>ID de Referencia:</strong> <span th:text="${cita.id}"></span></p>
+    <p><strong>Estado:</strong> <span th:text="${cita.estado}"></span></p>
+    <hr>
+    <p><strong>Fecha:</strong> <span th:text="${cita.fecha}"></span></p>
+    <p><strong>Hora:</strong> <span th:text="${cita.hora}"></span></p>
+    <p><strong>Paciente (Email):</strong> <span th:text="${cita.pacienteEmail}"></span></p>
+    <p><strong>Médico (Email):</strong> <span th:text="${cita.medicoEmail}"></span></p>
+    <hr>
+    <p><strong>Motivo de la consulta:</strong></p>
+    <blockquote th:text="${cita.motivo}" style="background: #f9f9f9; padding: 10px; font-style: italic;"></blockquote>
+</div>
+
+<br>
+<a href="javascript:history.back()" style="padding: 10px; background-color: #eee; text-decoration: none;">⬅️ Volver atrás</a>
+</body>
+</html>

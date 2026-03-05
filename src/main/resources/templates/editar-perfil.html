@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pedir Cita</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<h2>Editar Mi Perfil</h2>
+<form th:action="@{/paciente/editar}" th:object="${paciente}" method="post">
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required />
+    <br><br>
+    <button type="submit">Guardar Cambios</button>
+    <a href="/paciente/perfil">Cancelar</a>
+</form>

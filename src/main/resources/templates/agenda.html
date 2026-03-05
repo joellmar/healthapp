@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mi Agenda</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Agenda Médica de <span th:text="${medico.nombre}"></span></h2>
+<a href="/logout">Cerrar Sesión</a>
+<hr>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Paciente (Email)</th>
+        <th>Especialidad</th>
+        <th>Motivo</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cita : ${citas}">
+        <td th:text="${cita.id}"></td>
+        <td th:text="${cita.fecha}"></td>
+        <td th:text="${cita.hora}"></td>
+        <td th:text="${cita.pacienteEmail}"></td>
+        <td th:text="${cita.especialidad}"></td>
+        <td th:text="${cita.descripcion}"></td>
+        <td th:text="${cita.estado}"></td>
+        <td><a th:href="@{/citas/detalle/{id}(id=${cita.id})}">🔍 Ver</a>
+            <form th:if="${cita.estado.name() == 'PROGRAMADA'}"
+                  th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post" style="display:inline;">
+                <button type="submit">❌ Cancelar</button>
+            </form></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(citas)}">
+        <td colspan="4">No tienes citas programadas.</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

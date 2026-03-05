@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    Mi Perfil</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Perfil del Paciente</h2>
+<p><strong>Nombre:</strong> <span th:text="${paciente.nombre}"></span></p>
+<p><strong>Apellidos:</strong> <span th:text="${paciente.apellidos}"></span></p>
+<p><strong>Fecha de Nacimiento:</strong> <span th:text="${paciente.fechaNacimiento}"></span></p>
+<p><strong>Teléfono:</strong> <span th:text="${paciente.telefono}"></span></p>
+<p><strong>Email (Login):</strong> <span th:text="${paciente.usuarioId}"></span></p>
+
+<a href="/citas/mis-citas">Ver mis citas médicas</a> <br>
+<a href="/logout">Cerrar Sesión</a>
+</body>
+</html>

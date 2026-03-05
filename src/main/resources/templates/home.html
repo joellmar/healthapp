@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio - HealthApp</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Bienvenido a HealthApp</h1>
+<p>Hola, <span sec:authentication="name">Usuario</span></p>
+
+<hr>
+
+<div sec:authorize="hasRole('PACIENTE')">
+  <h3>Panel de Paciente</h3>
+  <ul>
+    <li><a href="/paciente/perfil">Mi Perfil</a></li>
+    <li><a href="/citas/mis-citas">Mis Citas Médicas</a></li>
+    <li><a href="/citas/nueva">Pedir Nueva Cita</a></li>
+  </ul>
+</div>
+
+<div sec:authorize="hasRole('MEDICO')">
+  <h3>Panel de Médico</h3>
+  <ul>
+    <li><a href="/medico/agenda">Mi Agenda de Citas</a></li>
+  </ul>
+</div>
+
+<hr>
+<a href="/logout">Cerrar Sesión</a>
+</body>
+</html>

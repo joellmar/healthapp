@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Mis Citas</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Mis Citas Médicas</h2>
+
+<form action="/citas/mis-citas" method="get">
+  <label>Estado:</label>
+  <select name="estadoFiltro">
+    <option value="">Todos</option>
+    <option value="PROGRAMADA">Programada</option>
+    <option value="REALIZADA">Realizada</option>
+    <option value="CANCELADA">Cancelada</option>
+  </select>
+
+  <label>Fecha (YYYY-MM-DD):</label>
+  <input type="date" name="fechaFiltro" />
+
+  <button type="submit">Filtrar</button>
+  <a href="/citas/mis-citas">Limpiar Filtros</a>
+</form>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Fecha</th>
+    <th>Hora</th>
+    <th>Especialidad</th>
+    <th>Motivo</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="cita : ${citas}">
+    <td th:text="${cita.id}"></td>
+    <td th:text="${cita.fecha}"></td>
+    <td th:text="${cita.hora}"></td>
+    <td th:text="${cita.especialidad}"></td>
+    <td th:text="${cita.descripcion}"></td>
+    <td th:text="${cita.estado}"></td>
+    <td>
+      <a th:href="@{/citas/detalle/{id}(id=${cita.id})}" style="color: blue;">🔍 Detalle</a>
+
+      <a th:if="${cita.estado.name() == 'PROGRAMADA'}"
+         th:href="@{/citas/editar/{id}(id=${cita.id})}" style="color: orange; margin-left: 10px;">✏️ Editar</a>
+
+      <form th:if="${cita.estado.name() == 'PROGRAMADA'}"
+            th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post" style="display:inline; margin-left: 10px;">
+        <button type="submit" style="color: white; background-color: red; border: none; padding: 3px 8px; cursor: pointer;">❌ Cancelar</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<a href="/citas/nueva">Solicitar nueva cita</a>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pedir Cita</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Solicitar Nueva Cita Médica</h2>
+<form th:action="@{/citas/editar}" th:object="${citaDTO}" method="post">
+
+    <label>Motivo de la consulta:
+        <input type="text" th:field="*{descripcion}" required />
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></p>
+    <br><br>
+
+    <label>Fecha:
+        <input type="date" th:field="*{fecha}" required />
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></p>
+    <br><br>
+
+    <label>Hora:
+        <input type="time" th:field="*{hora}" required />
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('hora')}" th:errors="*{hora}"></p>
+    <br><br>
+
+    <label>Selecciona un Médico:
+        <select th:field="*{medicoEmail}" required>
+            <option value="">-- Elige especialista --</option>
+            <option th:each="medico : ${medicos}"
+                    th:value="${medico.usuarioId}"
+                    th:text="${medico.nombre} + ' (' + ${medico.especialidad} + ')'">
+            </option>
+        </select>
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('medicoEmail')}" th:errors="*{medicoEmail}"></p>
+    <br><br>
+
+    <button type="submit">Editar Cita</button>
+    <a href="/citas/mis-citas">Cancelar</a>
+</form>
+</body>
+</html>

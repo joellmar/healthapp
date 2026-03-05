@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión - HealthApp</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <h2>Iniciar Sesión</h2>
+
+  <div th:if="${param.error}" class="alert alert-error">
+    Email o contraseña incorrectos.
+  </div>
+  <div th:if="${param.success}" class="alert alert-error">
+    ¡Registro completado! Ya puedes iniciar sesión.
+  </div>
+  <div th:if="${param.logout}" class="alert alert-error">
+    Has cerrado sesión correctamente.
+  </div>
+
+  <form th:action="@{/login}" th:object="${loginDTO}" method="post">
+    <label>Email:
+    <input type="email" name="email" required />
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+    <br><br>
+
+    <label>Contraseña:
+    <input type="password" name="password" required />
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+    <br><br>
+
+    <button type="submit">Entrar</button>
+  </form>
+
+  <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
+  </body>
+</html>

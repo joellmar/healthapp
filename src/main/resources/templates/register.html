@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - HealthApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Crea tu cuenta en HealthApp</h2>
+
+<form th:action="@{/register}" th:object="${registroDTO}" method="post">
+    <label>Nombre completo:
+    <input type="text" th:field="*{nombre}" required />
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
+    <br><br>
+
+    <label>Email:
+    <input type="email" th:field="*{email}" required />
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+    <br><br>
+
+    <label>Contraseña:
+    <input type="password" th:field="*{password}" required />
+    </label>
+    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+    <br><br>
+
+    <label>Soy un:
+    <select th:field="*{rol}" id="selectorRol" onchange="mostrarEspecialidad()">
+        <option value="ROLE_PACIENTE">Paciente</option>
+        <option value="ROLE_MEDICO">Médico</option>
+    </select>
+    </label>
+    <br><br>
+
+    <div id="divEspecialidad" style="display: none;">
+        <label>Especialidad Médica:
+        <input type="text" th:field="*{especialidad}" />
+        </label>
+        <br><br>
+    </div>
+
+    <button type="submit">Registrarme</button>
+</form>
+
+<p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+
+<script>
+    function mostrarEspecialidad() {
+        const rol = document.getElementById("selectorRol").value;
+        const divEsp = document.getElementById("divEspecialidad");
+        if (rol === "ROLE_MEDICO") {
+            divEsp.style.display = "block";
+        } else {
+            divEsp.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>

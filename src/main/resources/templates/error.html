@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Vaya! Ha ocurrido un error</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f4f4f9;
+        }
+        .error-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: inline-block;
+            max-width: 600px;
+        }
+        h1 {
+            color: #d9534f;
+            font-size: 3em;
+            margin-bottom: 0;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            font-size: 1.2em;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0275d8;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #025aa5;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1 th:text="'Error ' + (${status != null ? status : '500'})">Error 500</h1>
+
+        <h2 th:text="${errorTitle != null ? errorTitle : 'Problema inesperado'}">Título del error</h2>
+
+        <p th:text="${errorMessage != null ? errorMessage : 'No se pudo procesar tu solicitud.'}">Mensaje de error.</p>
+
+        <a href="javascript:history.back()">Volver atrás</a>
+        <a href="/login" style="background-color: #5cb85c;">Ir al Login</a>
+    </div>
+</body>
+</html>
