@@ -2,26 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Detalle de la Cita</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Detalle de la cita - HealthApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2>📋 Detalle de Cita Médica</h2>
+<body class="bg-slate-50 text-slate-800">
+<main class="max-w-xl mx-auto mt-12 px-4">
+    <div class="mb-6">
+        <a href="/citas/mis-citas" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">&larr; Volver al listado</a>
+        <h1 class="text-3xl font-extrabold text-slate-900 mt-1 tracking-tight">Detalle de la consulta</h1>
+    </div>
 
-<div style="border: 1px solid #ccc; padding: 20px; max-width: 500px;">
-    <p><strong>ID de Referencia:</strong> <span th:text="${cita.id}"></span></p>
-    <p><strong>Estado:</strong> <span th:text="${cita.estado}"></span></p>
-    <hr>
-    <p><strong>Fecha:</strong> <span th:text="${cita.fecha}"></span></p>
-    <p><strong>Hora:</strong> <span th:text="${cita.hora}"></span></p>
-    <p><strong>Paciente (Email):</strong> <span th:text="${cita.pacienteEmail}"></span></p>
-    <p><strong>Médico (Email):</strong> <span th:text="${cita.medicoEmail}"></span></p>
-    <hr>
-    <p><strong>Motivo de la consulta:</strong></p>
-    <blockquote th:text="${cita.motivo}" style="background: #f9f9f9; padding: 10px; font-style: italic;"></blockquote>
-</div>
+    <div class="bg-white rounded-xl shadow border border-slate-200 overflow-hidden">
+        <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase text-slate-500 tracking-wider" th:text="${'ID de referencia: ' + cita.id}">ID: 123</span>
+            <span th:class="${cita.estado.name() == 'PROGRAMADA' ? 'px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800' : 'px-2 py-1 text-xs font-semibold rounded-full bg-slate-100 text-slate-800'}" th:text="${cita.estado}">PROGRAMADA</span>
+        </div>
 
-<br>
-<a href="javascript:history.back()" style="padding: 10px; background-color: #eee; text-decoration: none;">⬅️ Volver atrás</a>
+        <div class="p-6 space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <span class="block text-xs font-bold uppercase text-slate-400">Fecha</span>
+                    <span class="text-base font-medium text-slate-900" th:text="${cita.fecha}">2026-05-20</span>
+                </div>
+                <div>
+                    <span class="block text-xs font-bold uppercase text-slate-400">Hora de atención</span>
+                    <span class="text-base font-medium text-slate-900" th:text="${cita.hora}">10:00</span>
+                </div>
+            </div>
+
+            <div>
+                <span class="block text-xs font-bold uppercase text-slate-400">Especialidad médica</span>
+                <span class="text-base font-bold text-indigo-600" th:text="${cita.especialidad}">Cardiología</span>
+            </div>
+
+            <div>
+                <span class="block text-xs font-bold uppercase text-slate-400">Facultativo asignado</span>
+                <span class="text-sm font-medium text-slate-900" th:text="${cita.medicoEmail}">medico@correo.com</span>
+            </div>
+
+            <div>
+                <span class="block text-xs font-bold uppercase text-slate-400">Descripción o sintomatología reportada</span>
+                <div class="mt-1 p-3 bg-slate-50 rounded-lg border border-slate-200 text-sm text-slate-700" th:text="${cita.descripcion}">
+                    Descripción de ejemplo.
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

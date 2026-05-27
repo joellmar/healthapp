@@ -2,59 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>¡Vaya! Ha ocurrido un error</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background-color: #f4f4f9;
-        }
-        .error-container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: inline-block;
-            max-width: 600px;
-        }
-        h1 {
-            color: #d9534f;
-            font-size: 3em;
-            margin-bottom: 0;
-        }
-        h2 {
-            color: #333;
-        }
-        p {
-            color: #666;
-            font-size: 1.2em;
-        }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #0275d8;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        a:hover {
-            background-color: #025aa5;
-        }
-    </style>
+    <title>Error del sistema - HealthApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="error-container">
-        <h1 th:text="'Error ' + (${status != null ? status : '500'})">Error 500</h1>
-
-        <h2 th:text="${errorTitle != null ? errorTitle : 'Problema inesperado'}">Título del error</h2>
-
-        <p th:text="${errorMessage != null ? errorMessage : 'No se pudo procesar tu solicitud.'}">Mensaje de error.</p>
-
-        <a href="javascript:history.back()">Volver atrás</a>
-        <a href="/login" style="background-color: #5cb85c;">Ir al Login</a>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex items-center justify-center px-4">
+<div class="max-w-md w-full bg-white rounded-xl shadow-md border border-slate-200 p-8 text-center">
+    <div class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-red-100 text-red-600 mb-4">
+        <svg class="h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
     </div>
+
+    <h1 class="text-4xl font-black text-slate-900 tracking-tight" th:text="${'Error ' + (status != null ? status : '500')}">Error 500</h1>
+    <h2 class="text-lg font-bold text-slate-800 mt-2" th:text="${errorTitle != null ? errorTitle : 'Problema inesperado'}">Aviso del sistema</h2>
+    <p class="text-sm text-slate-500 mt-2 bg-slate-50 border border-slate-200 p-3 rounded-lg text-left font-mono break-words" th:text="${errorMessage != null ? errorMessage : 'No se ha podido procesar la petición debido a un conflicto interno.'}">Detalle del fallo.</p>
+
+    <div class="mt-6 grid grid-cols-2 gap-4">
+        <a href="javascript:history.back()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-md text-sm font-medium border border-slate-300 uppercase">volver atrás</a>
+        <a href="/login" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm uppercase">ir al login</a>
+    </div>
+</div>
 </body>
 </html>

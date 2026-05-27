@@ -5,18 +5,19 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 
 public record CitaDTO(
         @NotNull(message = "Debes indicar una fecha")
         @FutureOrPresent(message = "La fecha no puede ser en el pasado")
         LocalDate fecha,
 
-        @NotBlank(message = "Debes indicar una hora")
+        @NotNull(message = "Debes indicar una hora")
+        @DateTimeFormat(pattern = "HH:mm")
         LocalTime hora,
 
         String especialidad,
@@ -30,5 +31,4 @@ public record CitaDTO(
         @NotBlank(message = "Debes seleccionar un médico")
         String medicoEmail
 ) implements Serializable {
-
 }

@@ -1,45 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Pedir Cita</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+    <title>Editar cita - HealthApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2>Solicitar Nueva Cita Médica</h2>
-<form th:action="@{/citas/editar}" th:object="${citaDTO}" method="post">
+<body class="bg-slate-50 text-slate-800">
+<main class="max-w-xl mx-auto mt-12 px-4">
+    <div class="mb-6">
+        <a href="/citas/mis-citas" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">&larr; Volver a mis citas</a>
+        <h1 class="text-3xl font-extrabold text-slate-900 mt-1 tracking-tight">Modificar cita programada</h1>
+    </div>
 
-    <label>Motivo de la consulta:
-        <input type="text" th:field="*{descripcion}" required />
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></p>
-    <br><br>
+    <div class="bg-white rounded-xl shadow border border-slate-200 p-6">
+        <form th:action="@{/citas/editar/{id}(id=${citaId})}" th:object="${citaDTO}" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">cambiar facultativo médico</label>
+                <select th:field="*{medicoEmail}" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none">
+                    <option th:each="medico : ${medicos}" th:value="${medico.usuarioId}" th:text="${medico.nombre + ' ' + medico.apellidos + ' - ' + medico.especialidad}"></option>
+                </select>
+            </div>
 
-    <label>Fecha:
-        <input type="date" th:field="*{fecha}" required />
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></p>
-    <br><br>
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">nueva fecha</label>
+                <input type="date" th:field="*{fecha}" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" />
+            </div>
 
-    <label>Hora:
-        <input type="time" th:field="*{hora}" required />
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('hora')}" th:errors="*{hora}"></p>
-    <br><br>
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">nueva hora</label>
+                <input type="time" th:field="*{hora}" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" />
+            </div>
 
-    <label>Selecciona un Médico:
-        <select th:field="*{medicoEmail}" required>
-            <option value="">-- Elige especialista --</option>
-            <option th:each="medico : ${medicos}"
-                    th:value="${medico.usuarioId}"
-                    th:text="${medico.nombre} + ' (' + ${medico.especialidad} + ')'">
-            </option>
-        </select>
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('medicoEmail')}" th:errors="*{medicoEmail}"></p>
-    <br><br>
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">especialidad</label>
+                <input type="text" th:field="*{especialidad}" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" readonly />
+            </div>
 
-    <button type="submit">Editar Cita</button>
-    <a href="/citas/mis-citas">Cancelar</a>
-</form>
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">modificar descripción</label>
+                <textarea th:field="*{descripcion}" rows="3" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none"></textarea>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex justify-end">
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm uppercase">guardar cambios</button>
+            </div>
+        </form>
+    </div>
+</main>
 </body>
 </html>

@@ -2,38 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Iniciar Sesión - HealthApp</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <title>Iniciar sesión - HealthApp</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h2>Iniciar Sesión</h2>
-
-  <div th:if="${param.error}" class="alert alert-error">
-    Email o contraseña incorrectos.
-  </div>
-  <div th:if="${param.success}" class="alert alert-error">
-    ¡Registro completado! Ya puedes iniciar sesión.
-  </div>
-  <div th:if="${param.logout}" class="alert alert-error">
-    Has cerrado sesión correctamente.
+<body class="bg-slate-50 text-slate-800 min-h-screen flex items-center justify-center px-4">
+<div class="max-w-md w-full bg-white rounded-xl shadow-md border border-slate-200 p-8">
+  <div class="flex flex-col items-center mb-6">
+    <svg class="h-12 w-12 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-13.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+    </svg>
+    <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight mt-2">Acceso a la plataforma</h1>
+    <p class="text-sm text-slate-500 mt-1">Introduce tus credenciales para gestionar tus consultas</p>
   </div>
 
-  <form th:action="@{/login}" th:object="${loginDTO}" method="post">
-    <label>Email:
-    <input type="email" name="email" required />
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-    <br><br>
+  <div th:if="${param.error}" class="mb-4 bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg text-sm">
+    El correo electrónico o la contraseña introducidos no son correctos.
+  </div>
+  <div th:if="${param.success}" class="mb-4 bg-green-50 border border-green-200 text-green-800 p-4 rounded-lg text-sm">
+    Registro completado con éxito. Ya puedes acceder al sistema.
+  </div>
+  <div th:if="${param.logout}" class="mb-4 bg-slate-100 border border-slate-200 text-slate-700 p-4 rounded-lg text-sm">
+    Has cerrado tu sesión de forma segura.
+  </div>
 
-    <label>Contraseña:
-    <input type="password" name="password" required />
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-    <br><br>
+  <form th:action="@{/login}" th:object="${loginDTO}" method="POST" class="space-y-4">
+    <div>
+      <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">correo electrónico</label>
+      <input type="email" name="email" placeholder="usuario@dominio.com" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" required />
+      <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+    </div>
 
-    <button type="submit">Entrar</button>
+    <div>
+      <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">contraseña de acceso</label>
+      <input type="password" name="password" placeholder="••••••••" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" required />
+      <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+    </div>
+
+    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm uppercase">entrar</button>
   </form>
 
-  <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
-  </body>
+  <div class="mt-6 pt-6 border-t border-slate-100 text-center text-sm">
+    <span class="text-slate-500">¿No dispones de una cuenta activa?</span>
+    <a href="/register" class="text-indigo-600 hover:text-indigo-800 font-semibold ml-1">Regístrate aquí</a>
+  </div>
+</div>
+</body>
 </html>

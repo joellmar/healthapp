@@ -1,33 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Inicio - HealthApp</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h1>Bienvenido a HealthApp</h1>
-<p>Hola, <span sec:authentication="name">Usuario</span></p>
+<body class="bg-slate-50 text-slate-800">
+<nav class="bg-white shadow-sm border-b border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <svg class="h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-13.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+        <span class="ml-2 text-xl font-bold text-slate-900">HealthApp</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="text-sm text-slate-500" th:text="${email}">usuario@correo.com</span>
+        <a href="/logout" class="text-sm font-medium text-red-600 hover:text-red-800 uppercase">cerrar sesión</a>
+      </div>
+    </div>
+  </div>
+</nav>
 
-<hr>
+<main class="max-w-4xl mx-auto mt-12 px-4">
+  <div class="bg-white rounded-xl shadow-md p-8 border border-slate-200">
+    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Bienvenido a tu panel de salud</h1>
+    <p class="mt-2 text-slate-600">Gestiona tus consultas médicas de forma rápida, ágil y totalmente segura.</p>
 
-<div sec:authorize="hasRole('PACIENTE')">
-  <h3>Panel de Paciente</h3>
-  <ul>
-    <li><a href="/paciente/perfil">Mi Perfil</a></li>
-    <li><a href="/citas/mis-citas">Mis Citas Médicas</a></li>
-    <li><a href="/citas/nueva">Pedir Nueva Cita</a></li>
-  </ul>
-</div>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div th:if="${rol == 'ROLE_PACIENTE'}" class="border border-slate-200 rounded-lg p-6 hover:border-indigo-500 transition-colors bg-slate-50">
+        <div class="flex items-center space-x-3">
+          <svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <h2 class="text-lg font-bold text-slate-900">Mis citas médicas</h2>
+        </div>
+        <p class="mt-2 text-sm text-slate-600">Consulta el historial de tus citas programadas, edita tus solicitudes en vigor o realiza cancelaciones.</p>
+        <a href="/citas/mis-citas" class="mt-4 inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-800">Ver mis citas &rarr;</a>
+      </div>
 
-<div sec:authorize="hasRole('MEDICO')">
-  <h3>Panel de Médico</h3>
-  <ul>
-    <li><a href="/medico/agenda">Mi Agenda de Citas</a></li>
-  </ul>
-</div>
+      <div th:if="${rol == 'ROLE_PACIENTE'}" class="border border-slate-200 rounded-lg p-6 hover:border-indigo-500 transition-colors bg-slate-50">
+        <div class="flex items-center space-x-3">
+          <svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          <h2 class="text-lg font-bold text-slate-900">Perfil personal</h2>
+        </div>
+        <p class="mt-2 text-sm text-slate-600">Visualiza tu información demográfica básica de paciente y edita tus datos de contacto.</p>
+        <a href="/paciente/perfil" class="mt-4 inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-800">Gestionar perfil &rarr;</a>
+      </div>
 
-<hr>
-<a href="/logout">Cerrar Sesión</a>
+      <div th:if="${rol == 'ROLE_MEDICO'}" class="border border-slate-200 rounded-lg p-6 hover:border-indigo-500 transition-colors bg-slate-50 md:col-span-2">
+        <div class="flex items-center space-x-3">
+          <svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          <h2 class="text-lg font-bold text-slate-900">Agenda médica</h2>
+        </div>
+        <p class="mt-2 text-sm text-slate-600">Accede de forma directa a la lista completa de pacientes asignados que tienen citas concertadas contigo.</p>
+        <a href="/medico/agenda" class="mt-4 inline-block text-sm font-semibold text-indigo-600 hover:text-indigo-800">Ver agenda de consultas &rarr;</a>
+      </div>
+    </div>
+  </div>
+</main>
 </body>
 </html>

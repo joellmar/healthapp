@@ -1,45 +1,73 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Mi Agenda</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+    <title>Agenda médica - HealthApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2>Agenda Médica de <span th:text="${medico.nombre}"></span></h2>
-<a href="/logout">Cerrar Sesión</a>
-<hr>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Fecha</th>
-        <th>Hora</th>
-        <th>Paciente (Email)</th>
-        <th>Especialidad</th>
-        <th>Motivo</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="cita : ${citas}">
-        <td th:text="${cita.id}"></td>
-        <td th:text="${cita.fecha}"></td>
-        <td th:text="${cita.hora}"></td>
-        <td th:text="${cita.pacienteEmail}"></td>
-        <td th:text="${cita.especialidad}"></td>
-        <td th:text="${cita.descripcion}"></td>
-        <td th:text="${cita.estado}"></td>
-        <td><a th:href="@{/citas/detalle/{id}(id=${cita.id})}">🔍 Ver</a>
-            <form th:if="${cita.estado.name() == 'PROGRAMADA'}"
-                  th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="post" style="display:inline;">
-                <button type="submit">❌ Cancelar</button>
-            </form></td>
-    </tr>
-    <tr th:if="${#lists.isEmpty(citas)}">
-        <td colspan="4">No tienes citas programadas.</td>
-    </tr>
-    </tbody>
-</table>
+<body class="bg-slate-50 text-slate-800">
+<nav class="bg-white shadow-sm border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <svg class="h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <span class="ml-2 text-xl font-bold text-slate-900">Panel facultativo</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm font-semibold text-slate-700" th:text="${'Dr/Dra. ' + medico.nombre}">Doctor</span>
+                <a href="/logout" class="text-sm font-medium text-red-600 hover:text-red-800 uppercase">cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-6xl mx-auto mt-12 px-4">
+    <div class="mb-8">
+        <a href="/home" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">&larr; Volver al panel de control</a>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Agenda de consultas médicas</h1>
+        <p class="text-slate-600 mt-1">Listado completo de citas asignadas bajo tu especialidad de <span class="font-bold text-indigo-600" th:text="${medico.especialidad}">especialidad</span>.</p>
+    </div>
+
+    <div class="bg-white shadow rounded-xl border border-slate-200 overflow-hidden">
+        <table class="min-w-full divide-y divide-slate-200">
+            <thead class="bg-slate-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Fecha y hora</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Paciente afectado</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Sintomatología / Motivo</th>
+                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Estado</th>
+                <th class="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">Operaciones</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-slate-200">
+            <tr th:each="cita : ${citas}">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900 font-medium">
+                    <span th:text="${cita.fecha}">2026-05-20</span> a las <span th:text="${cita.hora}">10:00</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600" th:text="${cita.pacienteEmail}">paciente@correo.com</td>
+                <td class="px-6 py-4 text-sm text-slate-500 max-w-xs truncate" th:text="${cita.descripcion}">Descripción de los síntomas</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span th:class="${cita.estado.name() == 'PROGRAMADA' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800' : (cita.estado.name() == 'CANCELADA' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800' : 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 text-slate-800')}" th:text="${cita.estado}">
+                        PROGRAMADA
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <form th:if="${cita.estado.name() == 'PROGRAMADA'}" th:action="@{/citas/cancelar/{id}(id=${cita.id})}" method="POST" class="inline">
+                        <button type="submit" class="text-red-600 hover:text-red-900 font-semibold uppercase text-xs">cancelar cita</button>
+                    </form>
+                    <span th:if="${cita.estado.name() != 'PROGRAMADA'}" class="text-slate-400 text-xs italic">Sin acciones</span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(citas)}">
+                <td colspan="5" class="px-6 py-12 text-center text-sm text-slate-500">
+                    No constan citas programadas pendientes en tu agenda médica.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
 </body>
 </html>

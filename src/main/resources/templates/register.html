@@ -3,60 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro - HealthApp</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2>Crea tu cuenta en HealthApp</h2>
-
-<form th:action="@{/register}" th:object="${registroDTO}" method="post">
-    <label>Nombre completo:
-    <input type="text" th:field="*{nombre}" required />
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
-    <br><br>
-
-    <label>Email:
-    <input type="email" th:field="*{email}" required />
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-    <br><br>
-
-    <label>Contraseña:
-    <input type="password" th:field="*{password}" required />
-    </label>
-    <p style="color: red; font-size: 0.8em;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-    <br><br>
-
-    <label>Soy un:
-    <select th:field="*{rol}" id="selectorRol" onchange="mostrarEspecialidad()">
-        <option value="ROLE_PACIENTE">Paciente</option>
-        <option value="ROLE_MEDICO">Médico</option>
-    </select>
-    </label>
-    <br><br>
-
-    <div id="divEspecialidad" style="display: none;">
-        <label>Especialidad Médica:
-        <input type="text" th:field="*{especialidad}" />
-        </label>
-        <br><br>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex items-center justify-center px-4 py-12">
+<div class="max-w-md w-full bg-white rounded-xl shadow-md border border-slate-200 p-8">
+    <div class="flex flex-col items-center mb-6">
+        <svg class="h-12 w-12 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+        </svg>
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight mt-2">Crear nueva cuenta</h1>
+        <p class="text-sm text-slate-500 mt-1">Regístrate para solicitar y consultar tus consultas médicas</p>
     </div>
 
-    <button type="submit">Registrarme</button>
-</form>
+    <form th:action="@{/register}" th:object="${registroDTO}" method="POST" class="space-y-4">
+        <div>
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">nombre completo</label>
+            <input type="text" th:field="*{nombre}" placeholder="Ej. Juan Pérez" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" required />
+            <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
+        </div>
 
-<p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+        <div>
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">correo electrónico</label>
+            <input type="email" th:field="*{email}" placeholder="usuario@dominio.com" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" required />
+            <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        </div>
+
+        <div>
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">contraseña de seguridad</label>
+            <input type="password" th:field="*{password}" placeholder="Mínimo 8 caracteres" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" required />
+            <p class="text-red-600 text-xs mt-1" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        </div>
+
+        <div>
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">perfil de usuario</label>
+            <select th:field="*{rol}" id="selectorRol" onchange="mostrarEspecialidad()" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none">
+                <option value="ROLE_PACIENTE">Paciente</option>
+                <option value="ROLE_MEDICO">Personal facultativo médico</option>
+            </select>
+        </div>
+
+        <div id="divEspecialidad" class="hidden">
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">especialidad médica</label>
+            <input type="text" th:field="*{especialidad}" placeholder="Ej. Cardiología, Pediatría" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none" />
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-sm uppercase">finalizar registro</button>
+    </form>
+
+    <div class="mt-6 pt-6 border-t border-slate-100 text-center text-sm">
+        <span class="text-slate-500">¿Ya dispones de un perfil registrado?</span>
+        <a href="/login" class="text-indigo-600 hover:text-indigo-800 font-semibold ml-1">Inicia sesión aquí</a>
+    </div>
+</div>
 
 <script>
     function mostrarEspecialidad() {
         const rol = document.getElementById("selectorRol").value;
         const divEsp = document.getElementById("divEspecialidad");
         if (rol === "ROLE_MEDICO") {
-            divEsp.style.display = "block";
+            divEsp.classList.remove("hidden");
         } else {
-            divEsp.style.display = "none";
+            divEsp.classList.add("hidden");
         }
     }
+    // Ejecución inicial por si se recarga el formulario con errores
+    document.addEventListener("DOMContentLoaded", mostrarEspecialidad);
 </script>
 </body>
 </html>

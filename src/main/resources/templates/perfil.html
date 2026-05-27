@@ -1,18 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    Mi Perfil</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+    <title>Mi perfil - HealthApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2>Perfil del Paciente</h2>
-<p><strong>Nombre:</strong> <span th:text="${paciente.nombre}"></span></p>
-<p><strong>Apellidos:</strong> <span th:text="${paciente.apellidos}"></span></p>
-<p><strong>Fecha de Nacimiento:</strong> <span th:text="${paciente.fechaNacimiento}"></span></p>
-<p><strong>Teléfono:</strong> <span th:text="${paciente.telefono}"></span></p>
-<p><strong>Email (Login):</strong> <span th:text="${paciente.usuarioId}"></span></p>
+<body class="bg-slate-50 text-slate-800">
+<main class="max-w-xl mx-auto mt-12 px-4">
+    <div class="mb-6">
+        <a href="/home" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">&larr; Volver al inicio</a>
+        <h1 class="text-3xl font-extrabold text-slate-900 mt-1 tracking-tight">Perfil del paciente</h1>
+    </div>
 
-<a href="/citas/mis-citas">Ver mis citas médicas</a> <br>
-<a href="/logout">Cerrar Sesión</a>
+    <div th:if="${param.exito}" class="mb-4 bg-green-50 border border-green-200 text-green-800 p-4 rounded-lg text-sm">
+        Los datos de tu perfil se han actualizado de forma correcta.
+    </div>
+
+    <div class="bg-white rounded-xl shadow border border-slate-200 overflow-hidden">
+        <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase text-slate-500 tracking-wider">datos personales en vigor</span>
+            <a href="/paciente/editar" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 uppercase">editar datos</a>
+        </div>
+        <div class="p-6 space-y-4">
+            <div>
+                <span class="block text-xs font-bold uppercase text-slate-400">Nombre completo</span>
+                <span class="text-base font-semibold text-slate-900" th:text="${paciente.nombre + ' ' + paciente.apellidos}">Nombre Paciente</span>
+            </div>
+            <div>
+                <span class="block text-xs font-bold uppercase text-slate-400">Correo electrónico asignado</span>
+                <span class="text-base font-medium text-slate-900" th:text="${paciente.usuarioId}">correo@correo.com</span>
+            </div>
+            <div>
+                <span class="block text-xs font-bold uppercase text-slate-400">Teléfono de contacto</span>
+                <span class="text-base font-medium text-slate-900" th:text="${paciente.telefono ?: 'No registrado'}">600000000</span>
+            </div>
+            <div>
+                <span class="block text-xs font-bold uppercase text-slate-400">Fecha de nacimiento</span>
+                <span class="text-base font-medium text-slate-900" th:text="${paciente.fechaNacimiento}">1990-01-01</span>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>
